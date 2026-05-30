@@ -6,3 +6,4 @@ config.yaml
 *.tfstate.backup
 *.tfvars
 .terraform.lock.hcl
+*.tfvars
