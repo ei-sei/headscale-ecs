@@ -26,8 +26,3 @@ variable "name_prefix" {
   description = "Prefix for resource names."
   type        = string
 }
-
-variable "ecr_repository_name" {
-  description = "The name of the ECR repository."
-  type        = string
-}
