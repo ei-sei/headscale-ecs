@@ -19,3 +19,7 @@ output "validated_certificate" {
   description = "The validated certificate"
   value       = module.acm.validated_certificate
 }
+
+output "nlb_dns_name" {
+  value = aws_lb.nlb.dns_name
+}
