@@ -18,3 +18,13 @@ module "acm" {
   cloudflare_zone_id = var.cloudflare_zone_id
   environment        = var.environment
 }
+
+module "nlb" {
+  source          = "./modules/nlb"
+  environment     = var.environment
+  name_prefix     = var.name_prefix
+  vpc_id          = module.network.vpc_id
+  certificate_arn = module.acm.certificate_arn
+  subnet_ids      = module.network.public_subnet_ids
+}
+

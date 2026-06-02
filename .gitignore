@@ -7,3 +7,4 @@ config.yaml
 *.tfvars
 .terraform.lock.hcl
 *.tfvars
+.terraform.tfstate.lock.info
