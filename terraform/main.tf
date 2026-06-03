@@ -38,5 +38,5 @@ module "ecs" {
   private_subnet_id   = module.network.private_subnet_ids
   tg_controlplane_arn = module.nlb.tg_controlplane_arn
   tg_wireguard_arn    = module.nlb.tg_wireguard_arn
-  depends_on = [module.network, module.nlb, module.ecr]
+  depends_on          = [module.network, module.nlb, module.ecr]
 }
