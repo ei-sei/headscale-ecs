@@ -28,3 +28,15 @@ module "nlb" {
   subnet_ids      = module.network.public_subnet_ids
 }
 
+module "ecs" {
+  source              = "./modules/ecs"
+  aws_region          = var.aws_region
+  environment         = var.environment
+  name_prefix         = var.name_prefix
+  vpc_id              = module.network.vpc_id
+  ecr_repository_url  = module.ecr.ecr_repository_url
+  private_subnet_id   = module.network.private_subnet_ids
+  tg_controlplane_arn = module.nlb.tg_controlplane_arn
+  tg_wireguard_arn    = module.nlb.tg_wireguard_arn
+  depends_on          = [module.network, module.nlb, module.ecr]
+}
