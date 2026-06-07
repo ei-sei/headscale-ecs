@@ -1,0 +1,32 @@
+name: Health Check
+
+on:
+  push:
+    # Once the pipeline is stable, change `branches` to `pull_request``
+    branches:
+      - feat/ci-cd
+    paths:
+      - "Dockerfile"
+      - "headscale/**"
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build -t headscale:test .
+
+      - name: Run container
+        run: |
+          docker run -d --name headscale-test \
+            -p 8080:8080 \
+            -v ${{ github.workspace }}/headscale/config-example.yaml:/etc/headscale/config.yaml \
+            headscale:test
+
+      - name: Health check
+        run: |
+          curl --fail http://localhost:8080/health
+          echo "Health check passed!"
