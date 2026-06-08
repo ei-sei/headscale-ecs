@@ -26,10 +26,15 @@ jobs:
           docker run -d --name headscale-test \
             -p 8080:8080 \
             -v ${{ github.workspace }}/headscale/config-example.yaml:/etc/headscale/config.yaml \
-            headscale:test
+            headscale:test --wait
 
       - name: Wait for container
-        run: sleep 5
+        run: |
+          for i in {1..10}; do
+            curl -s http://localhost:8080/health && break
+            echo "Attempt $i failed, retrying..."
+            sleep 3
+          done
 
       - name: Health check
         run: |
