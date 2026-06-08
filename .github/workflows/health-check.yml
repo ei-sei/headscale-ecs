@@ -28,6 +28,9 @@ jobs:
             -v ${{ github.workspace }}/headscale/config-example.yaml:/etc/headscale/config.yaml \
             headscale:test
 
+      - name: Wait for container
+        run: sleep 5
+
       - name: Health check
         run: |
           curl --fail http://localhost:8080/health
