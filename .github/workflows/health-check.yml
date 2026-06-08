@@ -21,11 +21,17 @@ jobs:
       - name: Build image
         run: docker build -t headscale:test .
 
+      - name: Create config
+        run: |
+          mkdir -p /tmp/headscale
+          cp ${{ github.workspace }}/headscale/config-example.yaml /tmp/headscale/config.yaml
+          sed -i 's/127.0.0.1:8080/0.0.0.0:8080/' /tmp/headscale/config.yaml
+
       - name: Run container
         run: |
           docker run -d --name headscale-test \
             -p 8080:8080 \
-            -v ${{ github.workspace }}/headscale/config-example.yaml:/etc/headscale/config.yaml \
+            -v /tmp/headscale/config.yaml:/etc/headscale/config.yaml \
             headscale:test
 
       - name: Container logs
