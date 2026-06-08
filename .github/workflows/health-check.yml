@@ -26,7 +26,7 @@ jobs:
           docker run -d --name headscale-test \
             -p 8080:8080 \
             -v ${{ github.workspace }}/headscale/config-example.yaml:/etc/headscale/config.yaml \
-            headscale:test --wait
+            headscale:test
 
       - name: Wait for container
         run: |
