@@ -28,6 +28,10 @@ jobs:
             -v ${{ github.workspace }}/headscale/config-example.yaml:/etc/headscale/config.yaml \
             headscale:test
 
+      - name: Container logs
+        if: always()
+        run: docker logs headscale-test
+
       - name: Wait for container
         run: |
           for i in {1..10}; do
