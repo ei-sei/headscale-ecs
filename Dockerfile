@@ -33,3 +33,5 @@ EXPOSE 50443/tcp
 EXPOSE 41641/udp
 
 CMD ["headscale", "serve"]
+
+# Health check CI test
