@@ -36,6 +36,12 @@ jobs:
         if: always()
         run: docker logs headscale-test
 
+      - name: Container status
+        if: always()
+        run: |
+          docker ps -a
+          docker inspect headscale-test --format='{{.State.Status}} - ExitCode: {{.State.ExitCode}}'
+
       - name: Wait for container
         run: |
           for i in {1..10}; do
