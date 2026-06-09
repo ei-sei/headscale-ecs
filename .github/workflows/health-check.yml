@@ -2,12 +2,10 @@ name: Health Check
 
 on:
   # Once the pipeline is stable, change `push` to `pull_request`
-  push:
-    branches:
-      - feat/ci-cd
-    # paths:
-    #   - "Dockerfile"
-    #   - "headscale/**"
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - "headscale/**"
 
 jobs:
   health-check:
@@ -37,14 +35,6 @@ jobs:
       - name: Container logs
         if: always()
         run: docker logs headscale-test
-
-      - name: Wait for container
-        run: |
-          for i in {1..10}; do
-            curl -s http://localhost:8080/health && break
-            echo "Attempt $i failed, retrying..."
-            sleep 3
-          done
 
       - name: Health check
         run: |
