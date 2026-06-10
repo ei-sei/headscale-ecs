@@ -2,9 +2,9 @@ name: Health Check
 
 on:
   pull_request:
-    # paths:
-    #   - "Dockerfile"
-    #   - "headscale/**"
+    paths:
+      - "Dockerfile"
+      - "headscale/**"
 
 jobs:
   health-check:
