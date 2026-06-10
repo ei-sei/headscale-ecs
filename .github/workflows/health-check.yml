@@ -1,10 +1,7 @@
 name: Health Check
 
 on:
-  # Once the pipeline is stable, change `push` to `pull_request`
-  push:
-    branches:
-      - feat/ci-cd
+  pull_request:
     # paths:
     #   - "Dockerfile"
     #   - "headscale/**"
