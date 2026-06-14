@@ -51,3 +51,34 @@ resource "aws_iam_openid_connect_provider" "github" {
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.github.certificates[0].sha1_fingerprint]
 }
+
+
+# Trust policy + IAM role for GitHub Actions to assume
+data "aws_iam_policy_document" "github_actions_assume_role" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+
+    principals {
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.github.arn]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringLike"
+      variable = "token.actions.githubusercontent.com:sub"
+      values   = ["repo:ei-sei/headscale-ecs:ref:refs/heads/main"]
+    }
+  }
+}
+
+resource "aws_iam_role" "github_actions_deploy" {
+  name               = "${var.name_prefix}-github-actions-deploy"
+  assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role.json
+}
+
