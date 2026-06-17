@@ -119,3 +119,5 @@ resource "aws_iam_role_policy" "github_actions_deploy" {
   role   = aws_iam_role.github_actions_deploy.id
   policy = data.aws_iam_policy_document.github_actions_deploy_permissions.json
 }
+
+data "aws_caller_identity" "current" {}
