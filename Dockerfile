@@ -22,6 +22,7 @@ RUN mkdir -p /data
 VOLUME /data
 
 COPY --from=builder /app/headscale /usr/local/bin/headscale
+COPY config.production.yaml /etc/headscale/config.yaml
 
 # HTTP (control plane API, used by Tailscale clients)
 EXPOSE 8080/tcp
@@ -33,5 +34,3 @@ EXPOSE 50443/tcp
 EXPOSE 41641/udp
 
 CMD ["headscale", "serve"]
-
-#trigger deploy test
