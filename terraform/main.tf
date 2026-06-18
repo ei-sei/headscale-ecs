@@ -39,6 +39,7 @@ module "ecs" {
   tg_controlplane_arn = module.nlb.tg_controlplane_arn
   tg_wireguard_arn    = module.nlb.tg_wireguard_arn
   depends_on          = [module.network, module.nlb, module.ecr]
+  domain_name         = var.domain_name
 }
 
 

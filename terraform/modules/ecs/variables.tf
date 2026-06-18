@@ -38,3 +38,8 @@ variable "tg_wireguard_arn" {
   description = "ARN of the NLB target group for WireGuard."
   type        = string
 }
+
+variable "domain_name" {
+  description = "The domain name for the application."
+  type        = string
+}
