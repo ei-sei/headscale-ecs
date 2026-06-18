@@ -128,10 +128,12 @@ resource "aws_ecs_task_definition" "headscale_task" {
         {
           name  = "HEADSCALE_DATABASE_SQLITE_PATH"
           value = "/var/lib/headscale/db.sqlite"
+        },
+        {
+          name  = "HEADSCALE_DNS_BASE_DOMAIN"
+          value = "tailnet.${var.domain_name}"
         }
-
       ]
-
     }
   ])
 }
