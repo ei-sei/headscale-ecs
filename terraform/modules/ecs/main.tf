@@ -96,6 +96,44 @@ resource "aws_ecs_task_definition" "headscale_task" {
           "awslogs-stream-prefix" = "${var.name_prefix}"
         }
       }
+      environment = [
+        {
+          name  = "HEADSCALE_LISTEN_ADDR"
+          value = "0.0.0.0:8080"
+        },
+        {
+          name  = "HEADSCALE_NOISE_PRIVATE_KEY_PATH"
+          value = "/var/lib/headscale/noise_private.key"
+        },
+        {
+          name  = "HEADSCALE_SERVER_URL"
+          value = "https://${var.domain_name}"
+        },
+        {
+          name  = "HEADSCALE_DNS_OVERRIDE_LOCAL_DNS"
+          value = "false"
+        },
+        {
+          name  = "HEADSCALE_PREFIXES_V4"
+          value = "100.64.0.0/10"
+        },
+        {
+          name  = "HEADSCALE_PREFIXES_V6"
+          value = "fd7a:115c:a1e0::/48"
+        },
+        {
+          name  = "HEADSCALE_DATABASE_TYPE"
+          value = "sqlite"
+        },
+        {
+          name  = "HEADSCALE_DATABASE_SQLITE_PATH"
+          value = "/var/lib/headscale/db.sqlite"
+        },
+        {
+          name  = "HEADSCALE_DNS_BASE_DOMAIN"
+          value = "tailnet.${var.domain_name}"
+        }
+      ]
     }
   ])
 }
