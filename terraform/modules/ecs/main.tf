@@ -112,6 +112,14 @@ resource "aws_ecs_task_definition" "headscale_task" {
         {
           name  = "HEADSCALE_DNS_OVERRIDE_LOCAL_DNS"
           value = "false"
+        },
+        {
+          name  = "HEADSCALE_PREFIXES_V4"
+          value = "100.64.0.0/10"
+        },
+        {
+          name  = "HEADSCALE_PREFIXES_V6"
+          value = "fd7a:115c:a1e0::/48"
         }
       ]
 
