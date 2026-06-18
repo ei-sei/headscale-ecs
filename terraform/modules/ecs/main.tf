@@ -120,7 +120,16 @@ resource "aws_ecs_task_definition" "headscale_task" {
         {
           name  = "HEADSCALE_PREFIXES_V6"
           value = "fd7a:115c:a1e0::/48"
+        },
+        {
+          name  = "HEADSCALE_DATABASE_TYPE"
+          value = "sqlite"
+        },
+        {
+          name  = "HEADSCALE_DATABASE_SQLITE_PATH"
+          value = "/var/lib/headscale/db.sqlite"
         }
+
       ]
 
     }
