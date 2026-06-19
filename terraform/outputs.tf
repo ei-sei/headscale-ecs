@@ -25,5 +25,5 @@ output "nlb_dns_name" {
 }
 
 output "github_actions_role_arn" {
-  value = aws_iam_role.github_actions_deploy.arn
+  value = module.oidc.github_actions_role_arn
 }
