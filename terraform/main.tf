@@ -43,8 +43,8 @@ module "ecs" {
 }
 
 module "oidc" {
-  source      = "./modules/oidc"
-  aws_region  = var.aws_region
-  name_prefix = var.name_prefix
+  source             = "./modules/oidc"
+  aws_region         = var.aws_region
+  name_prefix        = var.name_prefix
   ecr_repository_arn = module.ecr.ecr_repository_arn
 }
