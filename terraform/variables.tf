@@ -36,3 +36,9 @@ variable "cloudflare_zone_id" {
   description = "The Cloudflare Zone ID to use for validating the ACM"
   type        = string
 }
+
+variable "image_tag" {
+  description = "The image tag to deploy."
+  type        = string
+  default     = "latest"
+}

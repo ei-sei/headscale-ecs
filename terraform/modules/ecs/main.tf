@@ -76,7 +76,7 @@ resource "aws_ecs_task_definition" "headscale_task" {
   container_definitions = jsonencode([
     {
       name      = "${var.name_prefix}-container"
-      image     = "${var.ecr_repository_url}:latest"
+      image     = "${var.ecr_repository_url}:${var.image_tag}"
       essential = true
       portMappings = [
         {
