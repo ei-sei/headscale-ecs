@@ -95,3 +95,13 @@ curl http://127.0.0.1:8080/health
 
 ### Health check on applied infrastructure
 ![health-check](assets/health-check.png)
+
+## Challenges I overcame
+
+**Headscale crash-looping on ECS with no clear cause.** Locally, Headscale runs fine off a mounted `config.yaml`. On ECS there's no equivalent file mount, so the container kept exiting with config validation errors, one at a time: missing noise key path, invalid `server_url`, no DNS nameservers, no IP prefixes, no database type, no DERP map. I worked through each one using environment variables before realising a complete baked-in config file (matching what's already proven to work locally) was the simpler fix, rather than rediscovering every required field one failed deployment at a time.
+
+**Assuming WireGuard needed to go through the load balancer.** I initially built the NLB with a UDP target group and listener for WireGuard traffic, assuming the control plane needed to route it. After digging into how Tailscale's protocol actually works, I learned WireGuard traffic is peer-to-peer between clients and never touches the Headscale server at all. The NLB only needs to handle TCP/443 for the control plane.
+
+**Cloudflare provider resolution in a child Terraform module.** Using a non-HashiCorp provider (Cloudflare) inside a module without declaring it in that module's own `required_providers` block causes Terraform to silently fall back to looking for `hashicorp/cloudflare`, which doesn't exist. The fix was simple once identified, but the error message gave no indication of the actual cause.
+
+**Replacing long-lived AWS credentials with OIDC.** Initially used IAM access keys stored as GitHub secrets for the deploy pipeline. Migrated to GitHub's OIDC provider with a scoped IAM role trust policy, so the pipeline authenticates with short-lived, automatically-expiring credentials instead of static keys that never expire on their own.
