@@ -66,3 +66,6 @@ Verify it is working:
 ```bash
 curl http://127.0.0.1:8080/health
 ```
+
+### Health check on applied infrastructure
+![health-check](assets/health-check.png)
