@@ -34,3 +34,4 @@ EXPOSE 50443/tcp
 EXPOSE 41641/udp
 
 CMD ["headscale", "serve"]
+# trigger full pipeline for screenshot
