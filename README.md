@@ -99,7 +99,22 @@ Verify it is working:
 curl http://127.0.0.1:8080/health
 ```
 
-### Health check on applied infrastructure
+## Verifying the deployment
+
+`deploy.yml` (Docker Image CI) — build, push to ECR, deploy to ECS, post-deploy health check all passing:
+
+![deploy-pipeline](assets/deploy-pipeline.png)
+
+ECS service running with the new task (1/1):
+
+![ecs-cluster](assets/ecs-cluster.png)
+
+NLB target group reporting the task as healthy:
+
+![target-group](assets/target-group.png)
+
+Health check against the live domain:
+
 ![health-check](assets/health-check.png)
 
 ## Challenges I overcame
