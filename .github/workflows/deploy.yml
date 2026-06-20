@@ -50,3 +50,20 @@ jobs:
       - name: Deploy to AWS ECS
         run: |
           aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment --region $AWS_REGION
+
+  post-deploy-check:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for service to be reachable
+        run: |
+          for i in {1..10}; do
+            curl -s https://headscale.ska-cloud.uk/health && break
+            echo "Attempt $i failed, retrying..."
+            sleep 5
+          done
+
+      - name: Health check
+        run: |
+          curl --fail https://headscale.ska-cloud.uk/health
+          echo "Post-deploy health check passed!"
