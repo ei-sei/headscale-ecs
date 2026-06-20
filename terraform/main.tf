@@ -48,3 +48,12 @@ module "oidc" {
   name_prefix        = var.name_prefix
   ecr_repository_arn = module.ecr.ecr_repository_arn
 }
+
+resource "cloudflare_dns_record" "headscale" {
+  zone_id = var.cloudflare_zone_id
+  name    = var.domain_name
+  type    = "CNAME"
+  content = module.nlb.nlb_dns_name
+  ttl     = 300
+  proxied = false
+}
