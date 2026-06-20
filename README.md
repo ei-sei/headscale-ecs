@@ -17,6 +17,32 @@ A self-hosted Headscale (open-source Tailscale control plane) deployed on AWS EC
   git submodule update --init
   ```
 
+## Repository structure
+
+```
+headscale-ecs/
+├── headscale/
+├── Dockerfile
+├── config.production.yaml
+├── terraform/
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── modules/
+│       ├── vpc/
+│       ├── ecr/
+│       ├── acm/
+│       ├── nlb/
+│       ├── ecs/
+│       └── oidc/
+├── .github/workflows/
+│   ├── terraform.yml
+│   ├── health-check.yml
+│   └── deploy.yml
+├── assets/
+└── README.md
+```
+
 ## Architecture
 
 ![architecture](./assets/architecture.png)
