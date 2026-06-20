@@ -43,3 +43,9 @@ variable "domain_name" {
   description = "The domain name for the application."
   type        = string
 }
+
+variable "image_tag" {
+  description = "The image tag to deploy."
+  type        = string
+  default     = "latest"
+}

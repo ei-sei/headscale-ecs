@@ -12,6 +12,7 @@ env:
   ECR_REPOSITORY: headscale
   ECS_CLUSTER: headscale-cluster
   ECS_SERVICE: headscale-service
+  TF_VAR_image_tag: ${{ github.sha }}
 
 # OIDC token generation
 permissions:
@@ -41,7 +42,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: latest
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

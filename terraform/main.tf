@@ -40,6 +40,7 @@ module "ecs" {
   tg_wireguard_arn    = module.nlb.tg_wireguard_arn
   depends_on          = [module.network, module.nlb, module.ecr]
   domain_name         = var.domain_name
+  image_tag           = var.image_tag
 }
 
 module "oidc" {
