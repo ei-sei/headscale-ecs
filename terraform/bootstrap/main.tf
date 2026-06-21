@@ -1,3 +1,4 @@
+# Bucket that will hold the Terraform remote state for the main config.
 resource "aws_s3_bucket" "tfstate" {
   bucket = var.state_bucket_name
 
@@ -13,6 +14,7 @@ resource "aws_s3_bucket" "tfstate" {
   }
 }
 
+# Keeps prior state file versions, so a corrupted/bad state can be rolled back.
 resource "aws_s3_bucket_versioning" "tfstate" {
   bucket = aws_s3_bucket.tfstate.id
 
@@ -21,6 +23,7 @@ resource "aws_s3_bucket_versioning" "tfstate" {
   }
 }
 
+# Encrypts state at rest, since state files can contain sensitive values.
 resource "aws_s3_bucket_server_side_encryption_configuration" "tfstate" {
   bucket = aws_s3_bucket.tfstate.id
 
@@ -31,6 +34,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "tfstate" {
   }
 }
 
+# Blocks all public access to the bucket, at both config and enforcement level.
 resource "aws_s3_bucket_public_access_block" "tfstate" {
   bucket = aws_s3_bucket.tfstate.id
 
