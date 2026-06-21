@@ -68,6 +68,20 @@ data "aws_iam_policy_document" "github_actions_deploy_permissions" {
     ]
     resources = ["arn:aws:ecs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:service/${var.name_prefix}-cluster/${var.name_prefix}-service"]
   }
+
+  statement {
+    sid = "TerraformStateBucket"
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject",
+      "s3:ListBucket",
+    ]
+    resources = [
+      var.state_bucket_arn,
+      "${var.state_bucket_arn}/*",
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "github_actions_deploy" {
