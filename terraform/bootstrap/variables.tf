@@ -19,4 +19,5 @@ variable "name_prefix" {
 variable "state_bucket_name" {
   description = "Globally unique name for the S3 bucket that stores Terraform remote state."
   type        = string
+  default     = "headscale-ecs-tfstate-20260621"
 }

@@ -12,3 +12,8 @@ variable "ecr_repository_arn" {
   description = "The ARN of the ECR repository."
   type        = string
 }
+
+variable "state_bucket_arn" {
+  description = "ARN of the S3 bucket holding Terraform remote state."
+  type        = string
+}
