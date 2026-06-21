@@ -6,6 +6,8 @@ on:
     paths:
       - "Dockerfile"
       - "headscale/**"
+  workflow_dispatch:
+    
 
 env:
   AWS_REGION: eu-west-2
