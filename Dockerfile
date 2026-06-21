@@ -36,11 +36,5 @@ USER headscale
 # HTTP (control plane API, used by Tailscale clients)
 EXPOSE 8080/tcp
 
-# gRPC (used by headscale CLI to talk to the server)
-EXPOSE 50443/tcp
-
-# WireGuard (the actual VPN tunnel traffic)
-EXPOSE 41641/udp
-
 CMD ["headscale", "serve"]
 # trigger full pipeline for screenshot
