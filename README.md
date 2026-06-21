@@ -6,17 +6,13 @@ A self-hosted Headscale (open-source Tailscale control plane) deployed on AWS EC
 
 `headscale/` is a git submodule pointing to [juanfont/headscale](https://github.com/juanfont/headscale).
 
-
-- Clone with submodule included: 
-  ```git
-  git clone --recurse-submodules https://github.com/ei-sei/headscale-aws.git
-  ```
-
-- Or if already cloned:   
-  ```git
-  git submodule update --init
-  ```
-
+```bash
+# Clone with submodule included: 
+git clone --recurse-submodules https://github.com/ei-sei/headscale-aws.git
+  
+# Or if already cloned:   
+git submodule update --init
+```
 ## Repository structure
 
 ```
