@@ -132,3 +132,9 @@ Health check against the live domain:
 **Cloudflare provider resolution in a child Terraform module.** Using a non-HashiCorp provider (Cloudflare) inside a module without declaring it in that module's own `required_providers` block causes Terraform to silently fall back to looking for `hashicorp/cloudflare`, which doesn't exist. The fix was simple once identified, but the error message gave no indication of the actual cause.
 
 **Replacing long-lived AWS credentials with OIDC.** Initially used IAM access keys stored as GitHub secrets for the deploy pipeline. Migrated to GitHub's OIDC provider with a scoped IAM role trust policy, so the pipeline authenticates with short-lived, automatically-expiring credentials instead of static keys that never expire on their own.
+
+## Cost
+
+The NAT Gateway and NLB are the main drivers of this stack's cost, running to roughly $50-60/month if left up continuously. Since this is a portfolio project rather than a production service, I destroy the infrastructure between work sessions and demos using the `terraform-destroy.yml` pipeline, then bring it back up with `terraform-apply.yml` when needed - both are tested and idempotent.
+
+This stack isn't well-suited for production use as-is, since a full VPC/NAT Gateway/NLB/Fargate setup is disproportionately expensive for hosting a single lightweight Headscale binary. I'm planning a lighter-weight alternative using a single EC2 instance with an Elastic IP (no NAT Gateway or load balancers), and may also look at cheaper cloud providers as an option.
