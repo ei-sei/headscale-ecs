@@ -13,6 +13,10 @@ git clone --recurse-submodules https://github.com/ei-sei/headscale-aws.git
 # Or if already cloned:   
 git submodule update --init
 ```
+## Demo
+
+Registering a real device against the deployed Headscale server and connecting it to the tailnet over HTTPS: [Headscale-Demo.mp4](assets/Headscale-Demo.mp4)
+
 ## Repository structure
 
 ```
