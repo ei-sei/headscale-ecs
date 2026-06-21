@@ -97,7 +97,15 @@ curl http://127.0.0.1:8080/health
 
 ## Verifying the deployment
 
-`deploy.yml` (Docker Image CI) — build, push to ECR, deploy to ECS, post-deploy health check all passing:
+[terraform.yml](./.github/workflows/terraform.yml) (Terraform Check) - fmt, validate, and plan, run on every PR touching `terraform/**`:
+
+![terraform-check-pipeline](assets/terraform-check-pipeline.png)
+
+[terraform-apply.yml](./.github/workflows/terraform-apply.yml) - applies infrastructure changes on push to `main`:
+
+![terraform-apply-pipeline](assets/terraform-apply-pipeline.png)
+
+[deploy.yml](./.github/workflows/deploy.yml) (Deploy) - build, push to ECR, register a new task definition, deploy to ECS, post-deploy health check all passing:
 
 ![deploy-pipeline](assets/deploy-pipeline.png)
 
@@ -112,6 +120,10 @@ NLB target group reporting the task as healthy:
 Health check against the live domain:
 
 ![health-check](assets/health-check.png)
+
+[terraform-destroy.yml](./.github/workflows/terraform-destroy.yml) - manual-trigger-only teardown of all infrastructure:
+
+![terraform-destroy-pipeline](assets/terraform-destroy-pipeline.png)
 
 ## Challenges I overcame
 
