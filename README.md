@@ -15,7 +15,9 @@ git submodule update --init
 ```
 ## Demo
 
-Registering a real device against the deployed Headscale server and connecting it to the tailnet over HTTPS: [Headscale-Demo.mp4](assets/Headscale-Demo.mp4)
+Registering a real device against the deployed Headscale server and connecting it to the tailnet over HTTPS:
+
+https://github.com/user-attachments/assets/5b0eda5a-cd09-4017-afc8-c733dee614bb
 
 ## Repository structure
 
