@@ -94,6 +94,7 @@ data "aws_iam_policy_document" "github_actions_deploy_permissions" {
       "ecr:SetRepositoryPolicy",
       "ecr:PutLifecyclePolicy",
       "ecr:TagResource",
+      "ecr:ListTagsForResource",
     ]
     resources = [var.ecr_repository_arn]
   }
