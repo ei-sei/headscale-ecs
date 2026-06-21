@@ -6,3 +6,7 @@ output "state_bucket_name" {
 output "state_bucket_arn" {
   value = aws_s3_bucket.tfstate.arn
 }
+
+output "github_actions_role_arn" {
+  value = module.oidc.github_actions_role_arn
+}

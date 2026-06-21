@@ -43,12 +43,7 @@ module "ecs" {
   image_tag           = var.image_tag
 }
 
-module "oidc" {
-  source             = "./modules/oidc"
-  aws_region         = var.aws_region
-  name_prefix        = var.name_prefix
-  ecr_repository_arn = module.ecr.ecr_repository_arn
-}
+
 
 resource "cloudflare_dns_record" "headscale" {
   zone_id = var.cloudflare_zone_id

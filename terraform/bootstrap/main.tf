@@ -1,3 +1,12 @@
+data "aws_caller_identity" "current" {}
+
+module "oidc" {
+  source             = "./modules/oidc"
+  aws_region         = var.aws_region
+  name_prefix        = var.name_prefix
+  ecr_repository_arn = "arn:aws:ecr:${var.aws_region}:${data.aws_caller_identity.current.account_id}:repository/${var.name_prefix}"
+}
+
 # Bucket that will hold the Terraform remote state for the main config.
 resource "aws_s3_bucket" "tfstate" {
   bucket = var.state_bucket_name
