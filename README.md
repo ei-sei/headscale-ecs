@@ -30,17 +30,23 @@ headscale-ecs/
 │   ├── main.tf
 │   ├── variables.tf
 │   ├── outputs.tf
+│   ├── backend.tf
+│   ├── bootstrap/
+│   │   ├── main.tf
+│   │   └── modules/
+│   │       └── oidc/
 │   └── modules/
 │       ├── vpc/
 │       ├── ecr/
 │       ├── acm/
 │       ├── nlb/
-│       ├── ecs/
-│       └── oidc/
+│       └── ecs/
 ├── .github/workflows/
-│   ├── terraform.yml
-│   ├── health-check.yml
-│   └── deploy.yml
+│   ├── terraform-check.yml
+│   ├── terraform-apply.yml
+│   ├── terraform-destroy.yml
+│   ├── deploy.yml
+│   └── health-check.yml
 ├── assets/
 └── README.md
 ```
