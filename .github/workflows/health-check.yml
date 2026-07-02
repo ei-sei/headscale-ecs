@@ -5,6 +5,7 @@ on:
     paths:
       - "Dockerfile"
       - "headscale/**"
+      - "config.prod.yaml"
 
 jobs:
   health-check:
@@ -17,12 +18,6 @@ jobs:
 
       - name: Build image
         run: docker build -t headscale:test .
-
-      - name: Create config
-        run: |
-          mkdir -p /tmp/headscale
-          cp ${{ github.workspace }}/headscale/config-example.yaml /tmp/headscale/config.yaml
-          sed -i 's/127.0.0.1:8080/0.0.0.0:8080/' /tmp/headscale/config.yaml
 
       - name: Run container
         run: |
