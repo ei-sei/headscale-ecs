@@ -147,6 +147,10 @@ Health check against the live domain:
 
 ## Cost
 
-The NAT Gateway and NLB are the main drivers of this stack's cost, running to roughly $50-60/month if left up continuously. Since this is a portfolio project rather than a production service, I destroy the infrastructure between work sessions and demos using the `terraform-destroy.yml` pipeline, then bring it back up with `terraform-apply.yml` when needed - both are tested and idempotent.
+The NAT Gateway and NLB are the main drivers of this stack's cost, running to roughly $65-70/month if left up continuously (verified with `infracost inspect` against the Terraform config: NAT Gateway ~$37/mo, NLB ~$19/mo, Fargate task ~$10/mo). Since this is a portfolio project rather than a production service, I destroy the infrastructure between work sessions and demos using the `terraform-destroy.yml` pipeline, then bring it back up with `terraform-apply.yml` when needed - both are tested and idempotent.
+
+![infracost-breakdown](assets/infracost-breakdown.png)
+
+![infracost-breakdown-resources](assets/infracost-breakdown-resources.png)
 
 This stack isn't well-suited for production use as-is, since a full VPC/NAT Gateway/NLB/Fargate setup is disproportionately expensive for hosting a single lightweight Headscale binary. I'm planning a lighter-weight alternative using a single EC2 instance with an Elastic IP (no NAT Gateway or load balancers), and may also look at cheaper cloud providers as an option.
