@@ -1,0 +1,41 @@
+name: Security Scan
+
+on:
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - "headscale/**"
+      - "terraform/**"
+
+jobs:
+  scan-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Build image
+        run: docker build -t headscale:test .
+
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: headscale:test
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+
+  scan-iac:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Scan Terraform with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: config
+          scan-ref: terraform/
+          severity: HIGH,CRITICAL
+          exit-code: '1'
