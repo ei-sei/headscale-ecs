@@ -109,9 +109,13 @@ curl http://127.0.0.1:8080/health
 
 ## Verifying the deployment
 
-[terraform.yml](./.github/workflows/terraform.yml) (Terraform Check) - fmt, validate, and plan, run on every PR touching `terraform/**`:
+[terraform-check.yml](./.github/workflows/terraform-check.yml) - fmt, validate, and plan, run on every PR touching `terraform/**`:
 
 ![terraform-check-pipeline](assets/terraform-check-pipeline.png)
+
+[security-scan.yml](./.github/workflows/security-scan.yml) - Trivy scans the built image for OS/dependency CVEs and the Terraform config for misconfigurations, on every PR touching `Dockerfile`, `headscale/**`, `config.production.yaml`, or `terraform/**`:
+
+![security-scan-pipeline](assets/security-scan-pipeline.png)
 
 [terraform-apply.yml](./.github/workflows/terraform-apply.yml) - applies infrastructure changes on push to `main`:
 
@@ -144,6 +148,13 @@ Health check against the live domain:
 **Cloudflare provider resolution in a child Terraform module.** Using a non-HashiCorp provider (Cloudflare) inside a module without declaring it in that module's own `required_providers` block causes Terraform to silently fall back to looking for `hashicorp/cloudflare`, which doesn't exist. The fix was simple once identified, but the error message gave no indication of the actual cause.
 
 **Replacing long-lived AWS credentials with OIDC.** Initially used IAM access keys stored as GitHub secrets for the deploy pipeline. Migrated to GitHub's OIDC provider with a scoped IAM role trust policy, so the pipeline authenticates with short-lived, automatically-expiring credentials instead of static keys that never expire on their own.
+
+**A real CVE caught by adding Trivy.** Adding `security-scan.yml` immediately flagged two HIGH-severity CVEs in the Go standard library (`crypto/x509` and `mime`, both denial-of-service issues) baked into the image via the `golang:1.26.3-alpine` build stage. Fixed by bumping to `golang:1.26.4-alpine`, which resolved both. Useful proof that the scan does real work, not just a checkbox pipeline step.
+
+![trivy-image-scan-fail](assets/trivy-image-scan-fail.png)
+![trivy-image-scan-pass](assets/trivy-image-scan-pass.png)
+
+**A leftover bind mount broke the health check after a config refactor.** `health-check.yml` used to mount a generated `config.yaml` into the container at runtime. When the Dockerfile was changed to bake `config.production.yaml` into the image instead, the step that generated the mounted file was removed, but the `-v` mount flag referencing it was not - causing Docker to fail trying to bind-mount a nonexistent path onto a file that already existed in the image. Fixed by removing the leftover mount and pointing the workflow's path filter at the correct config filename.
 
 ## Cost
 
