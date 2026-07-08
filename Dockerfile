@@ -38,3 +38,7 @@ EXPOSE 8080/tcp
 
 CMD ["headscale", "serve"]
 # trigger full pipeline for screenshot
+
+
+
+# test: trigger security-scan workflow
