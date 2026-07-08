@@ -5,7 +5,7 @@ on:
     paths:
       - "Dockerfile"
       - "headscale/**"
-      - "config.prod.yaml"
+      - "config.production.yaml"
 
 jobs:
   health-check:
@@ -20,11 +20,7 @@ jobs:
         run: docker build -t headscale:test .
 
       - name: Run container
-        run: |
-          docker run -d --name headscale-test \
-            -p 8080:8080 \
-            -v /tmp/headscale/config.yaml:/etc/headscale/config.yaml \
-            headscale:test
+        run: docker run -d --name headscale-test -p 8080:8080 headscale:test
 
       - name: Wait for container
         run: |
