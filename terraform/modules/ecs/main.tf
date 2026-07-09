@@ -62,6 +62,26 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 
+# ECS Service Discovery (Cloud Map) for Headscale
+resource "aws_service_discovery_private_dns_namespace" "internal" {
+  name = "${var.name_prefix}.internal"
+  vpc  = var.vpc_id
+}
+
+resource "aws_service_discovery_service" "headscale" {
+  name = "headscale"
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.internal.id
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+  }
+
+  health_check_custom_config {}
+}
+
 
 # ECS Task Definition
 resource "aws_ecs_task_definition" "headscale_task" {
@@ -86,6 +106,11 @@ resource "aws_ecs_task_definition" "headscale_task" {
         {
           containerPort = 41641
           protocol      = "udp"
+        },
+
+        {
+          containerPort = 9090
+          protocol      = "tcp"
         }
       ]
       logConfiguration = {
@@ -153,6 +178,11 @@ resource "aws_ecs_service" "headscale_service" {
     container_name   = "${var.name_prefix}-container"
     container_port   = 41641
   }
+
+  service_registries {
+    registry_arn = aws_service_discovery_service.headscale.arn
+  }
+
 
   tags = {
     Environment = var.environment
