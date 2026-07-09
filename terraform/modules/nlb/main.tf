@@ -1,9 +1,42 @@
+resource "aws_security_group" "nlb" {
+  name        = "${var.name_prefix}-nlb-sg"
+  description = "Security group for the NLB"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name        = "${var.name_prefix}-nlb-sg"
+    Environment = var.environment
+  }
+}
+
 # NLB:
 resource "aws_lb" "nlb" {
   name               = "${var.name_prefix}-nlb"
   internal           = false
   load_balancer_type = "network"
   subnets            = var.subnet_ids
+  security_groups    = [aws_security_group.nlb.id]
   tags = {
     Name        = "${var.name_prefix}-nlb"
     Environment = var.environment
