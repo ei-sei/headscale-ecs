@@ -78,8 +78,6 @@ resource "aws_service_discovery_service" "headscale" {
       type = "A"
     }
   }
-
-  health_check_custom_config {}
 }
 
 
